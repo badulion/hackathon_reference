@@ -14,9 +14,8 @@ class ScipyOptimizer(BaseOptimizer):
     """
     def __init__(self,
                  cost_function: Callable[[SimulationData], float],
-                 direction: str = "minimize",
                  max_iter: int = 100) -> None:
-        super().__init__(cost_function, direction)
+        super().__init__(cost_function)
         self.max_iter = max_iter
         
     def _vector_to_coil_config(self, vector: np.ndarray) -> CoilConfig:
@@ -41,7 +40,8 @@ class ScipyOptimizer(BaseOptimizer):
             pbar.update(1)
             pbar.set_postfix_str(f"Cost {f:.2f}")
         
-        initial_guess = np.concat([np.zeros(8), 5*np.ones(8)])
+        #initial_guess = np.concat([np.zeros(8), 5*np.ones(8)])
+        initial_guess = np.concat([np.random.uniform(0, 2*np.pi, 8), np.random.uniform(0, 1, 8)])
         
         result = minimize(cost_fn, initial_guess, method="Nelder-Mead", options={"maxiter": self.max_iter}, callback=callback_fn)
         #result = dual_annealing(cost_fn, bounds=[(0, 2*np.pi)]*8 + [(0, 10)]*8, maxiter=self.max_iter, callback=callback_fn_dual_annealing, no_local_search=True)
@@ -49,6 +49,5 @@ class ScipyOptimizer(BaseOptimizer):
         
         best_coil_config = self._vector_to_coil_config(result.x)    
         best_cost = result.fun
-        print(f"Best cost: {best_cost}")
         
         return best_coil_config
