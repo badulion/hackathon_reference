@@ -15,6 +15,6 @@ def run(simulation: Simulation,
             cost_function: Cost function object
             timeout: Time (in seconds) after which the evaluation script will be terminated
     """
-    optimizer = ScipyOptimizer(cost_function=cost_function, max_iter=200)
+    optimizer = OptunaOptimizer(cost_function=cost_function, max_iter=2000)
     best_coil_config = optimizer.optimize(simulation)
     return best_coil_config
