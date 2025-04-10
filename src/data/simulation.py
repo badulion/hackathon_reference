@@ -17,8 +17,8 @@ class Simulation:
         self.path = path
         self.coil_path = coil_path
         
-        self.simulation_raw_data = self._load_raw_simulation_data()
         self.crop = CropOnlySubject()
+        self.simulation_raw_data = self._load_raw_simulation_data()
         
     def _load_raw_simulation_data(self) -> SimulationRawData:
         # Load raw simulation data from path
