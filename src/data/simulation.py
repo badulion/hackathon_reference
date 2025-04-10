@@ -7,7 +7,7 @@ import einops
 
 from typing import Tuple
 from .dataclasses import SimulationRawData, SimulationData, CoilConfig
-
+from .transforms import CropOnlySubject
 
 
 class Simulation:
@@ -18,6 +18,7 @@ class Simulation:
         self.coil_path = coil_path
         
         self.simulation_raw_data = self._load_raw_simulation_data()
+        self.crop = CropOnlySubject()
         
     def _load_raw_simulation_data(self) -> SimulationRawData:
         # Load raw simulation data from path
@@ -56,7 +57,8 @@ class Simulation:
             coil=read_coil_mask()
         )
         
-        return simulation_raw_data
+        cropped_simulation_raw_data = self.crop(simulation_raw_data)
+        return cropped_simulation_raw_data
     
     def _shift_field(self, 
                      field: npt.NDArray[np.float32], 
