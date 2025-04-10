@@ -3,3 +3,4 @@ numpy
 einops
 matplotlib
 tqdm
+optuna
