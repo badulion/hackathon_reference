@@ -4,3 +4,4 @@ einops
 matplotlib
 tqdm
 optuna
+cmaes
